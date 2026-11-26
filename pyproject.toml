@@ -1,0 +1,62 @@
+[project]
+name = "company-assistant"
+version = "0.1.0"
+description = "Un cœur d'assistant LangChain, branché sur plusieurs canaux."
+requires-python = ">=3.12"
+dependencies = [
+    "discord-py>=2.7.1",
+    "fastapi>=0.165.0",
+    "langchain>=1.5",
+    "langchain-chroma>=1.2.0",
+    "langchain-community>=0.4.2",
+    "langchain-groq>=1.2.1",
+    "langchain-huggingface>=1.3.0",
+    "langchain-ollama>=1.0",
+    "langchain-text-splitters>=1.2.0",
+    "langgraph>=1.2",
+    "sentence-transformers>=6.3.0",
+    "uvicorn>=0.54.0",
+]
+
+# Les commandes : lancer un canal, indexer les documents
+[project.scripts]
+assistant = "assistant.__main__:main"
+assistant-index = "assistant.entrypoints.index_documents:main"
+assistant-evaluate = "assistant.entrypoints.evaluate:main"
+
+# Les canaux de l'assistant : brancher un canal = une ligne ici et un module dans entrypoints/
+[project.entry-points."assistant.channels"]
+terminal = "assistant.entrypoints.terminal:run"
+discord = "assistant.entrypoints.discord_bot.bot:run"
+api = "assistant.entrypoints.web_api.server:run"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "httpx>=0.28.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/assistant"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["groq: needs GROQ_API_KEY"]
+addopts = "-m 'not groq'"
+
+[tool.ruff]
+line-length = 110
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP", "SIM", "RUF", "I"]
+
+[tool.mypy]
+strict = true
+mypy_path = "src"

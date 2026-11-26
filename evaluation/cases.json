@@ -1,0 +1,7 @@
+[
+  {"question": "Quel est le plafond de remboursement d'un repas ?", "expected": "25"},
+  {"question": "Combien de jours avant le départ faut-il poser ses congés ?", "expected": "10"},
+  {"question": "Que faire en cas d'erreur ERR-4012 ?", "expected": "certifica"},
+  {"question": "Où en est le ticket 4 ?", "expected": "open"},
+  {"question": "Quel est le salaire d'un consultant ?", "expected": "I don't know"}
+]
